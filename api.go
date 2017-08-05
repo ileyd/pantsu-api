@@ -46,6 +46,15 @@ func consumePost(url string, params map[string]string, token string, response in
 	return nil
 }
 
+func structToMap(strct interface{}) (m map[string]string, err error) {
+	paramsJSON, err := json.Marshal(strct)
+	if err != nil {
+		return nil, err
+	}
+	err = json.Unmarshal(paramsJSON, &m)
+	return m, err
+}
+
 // TorrentIndex fetches and returns the Pantsu torrend index
 func TorrentIndex() (index TorrentIndexObject, err error) {
 	const url = ""
@@ -59,9 +68,27 @@ func TorrentIndex() (index TorrentIndexObject, err error) {
 
 // func torrentHead // what is this
 
-// func uploadTorrent
+func UploadTorrent(token string, params UploadTorrentParameters) (res UploadTorrentResponse, resErr PantsuPostErrors, err error) {
+	const url = ""
+	m, err := structToMap(params)
+	if err != nil {
+		return UploadTorrentResponse{}, PantsuPostErrors{}, err
+	}
 
-// func updateTorrent
+	err = consumePost(url, m, token, res, resErr)
+	return res, resErr, err
+}
+
+func UpdateTorrent(token string, params UpdateTorrentParameters) (res UpdateTorrentResponse, resErr PantsuPostErrors, err error) {
+	const url = ""
+	m, err := structToMap(params)
+	if err != nil {
+		return UpdateTorrentResponse{}, PantsuPostErrors{}, err
+	}
+
+	err = consumePost(url, m, token, res, resErr)
+	return res, resErr, err
+}
 
 // UserLogin logs a user into pantsu and returns the user object for the user
 func UserLogin(username, password string) (res LoginResponse, resErr PantsuPostErrors, err error) {
