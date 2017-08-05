@@ -78,13 +78,53 @@ type TorrentSearch struct {
 // TODO: torrent head (what is that)
 
 type UploadTorrentResponse struct {
+	OK   bool     `json:"ok"`    // whether request completed sucessfully
+	Info []string `json:"infos"` // relevant information
+	Data Torrent  // user object
+}
+
+type UploadTorrentParameters struct {
+	Username    string   `json:"username"`
+	Name        string   `json:"name"`
+	Magnet      string   `json:"magnet"`
+	Category    int      `json:"category"`
+	Remake      bool     `json:"remake"`
+	Description string   `json:"description"`
+	Status      int      `json:"status"`
+	Hidden      bool     `json:"hidden"`
+	WebsiteLink string   `json:"website_link"`
+	Languages   []string `json:"languages"`
+	Torrent     []byte   `json:"torrent"` // TODO: work out how to handle file uploads
 }
 
 type UpdateTorrentResponse struct {
+	OK   bool     `json:"ok"`    // whether request completed sucessfully
+	Info []string `json:"infos"` // relevant information
+	Data Torrent  // user object
+}
+
+type UpdateTorrentParameters struct {
+	Username    string   `json:"username"`
+	ID          int      `json:"id"`
+	Name        string   `json:"name"`
+	Category    int      `json:"category"`
+	Remake      bool     `json:"remake"`
+	Description string   `json:"description"`
+	Status      int      `json:"status"`
+	Hidden      bool     `json:"hidden"`
+	WebsiteLink string   `json:"website_link"`
+	Languages   []string `json:"languages"`
 }
 
 // User object describing an individual user
 type User struct {
+	ID          int       `json:"user_id"`
+	Username    string    `json:"username"`
+	Status      int       `json:"status"`
+	MD5         string    `json:"md5"`
+	Created     time.Time `json:"created_at"`
+	LikingCount int       `json:"liking_count"`
+	LikedCount  int       `json:"liked_count"`
 }
 
 type LoginResponse struct {
