@@ -47,7 +47,7 @@ func consumePost(url string, params map[string]string, token string, response in
 }
 
 // TorrentIndex fetches and returns the Pantsu torrend index
-func TorrentIndex() (index TorrentIndex, err error) {
+func TorrentIndex() (index TorrentIndexObject, err error) {
 	const url = ""
 	err = consumeGet(url, nil, "", &index)
 	return index, err
@@ -64,22 +64,22 @@ func TorrentIndex() (index TorrentIndex, err error) {
 // func updateTorrent
 
 // UserLogin logs a user into pantsu and returns the user object for the user
-func UserLogin(username, password string) (res LoginResponse, err error) {
+func UserLogin(username, password string) (res LoginResponse, resErr PantsuPostErrors, err error) {
 	const url = ""
 	var params map[string]string
 	params["username"] = username
 	params["password"] = password
 
-	err = consumePost(url, params, "", res, nil)
-	return res, err
+	err = consumePost(url, params, "", res, resErr)
+	return res, resErr, err
 }
 
 // UserProfile fetches the user profile for the specified user
-func UserProfile(id int) (res User, err error) {
+func UserProfile(id int) (res User, resErr PantsuPostErrors, err error) {
 	const url = ""
 	var params map[string]string
 	params["id"] = string(id)
 
-	err = consumePost(url, params, "", res, nil)
-	return res, err
+	err = consumePost(url, params, "", res, resErr)
+	return res, resErr, err
 }

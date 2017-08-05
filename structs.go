@@ -4,12 +4,14 @@ import (
 	"time"
 )
 
-// TODO placeholder type to satisfy lint checks
-type TODO string
+type PantsuPostErrors struct {
+	OK        bool          `json:"ok"` // whether the request succeeded
+	Errors    []string      // error messages
+	AllErrors []interface{} // error objects
+}
 
-// Errors struct containing errors when requset fails
-type Errors struct {
-	Errors []string `json:"errors"` // errors for when request fails
+type PantsuGetErrors struct {
+	Errors []string `json:"errors"` // error messages
 }
 
 // Torrent object describing an individual torrent
@@ -21,7 +23,7 @@ type Torrent struct {
 	Date         time.Time     `json:"date"`          // date the torrent was uploaded
 	Filesize     int           `json:"filesize"`      // size of the torrent contents in bytes
 	Description  string        `json:"description"`   // HTML-formatted description of the torrent
-	Comments     []TODO        `json:"comments"`      // comments for the torrent
+	Comments     []string      `json:"comments"`      // comments for the torrent // TODO check type
 	SubCategory  string        `json:"sub_category"`  // identifier for the subcategory of the torrent`
 	Category     string        `json:"category"`      // identifier for the category of the torrent
 	AniDBID      string        `json:"anidb_id"`      // identifier for the anidb entry corresponding to the torrent
@@ -39,16 +41,16 @@ type Torrent struct {
 	FileList     []interface{} `json:"file_list"`     // list of files in the torrent
 }
 
-// TorrentIndex of torrents
-type TorrentIndex struct {
+// TorrentIndexObject describing the torrents returned by TorrentIndex()
+type TorrentIndexObject struct {
 	Torrents         []Torrent `json:"torrents"`         // List of torrents objects
 	QueryRecordCount int       `json:"queryRecordCount"` // number of torrents returned
 	TotalRecordCount int       `json:"totalRecordCount"` // total number of torrents available
 	Errors           []string  `json:"errors"`           // list of errors for when the request fails
 }
 
-// parameters for TorrentSearch
-type torrentSearchParameters struct {
+// TorrentSearchParameters describes the parameters to be passed to SearchTorrents()
+type TorrentSearchParameters struct {
 	Categories []string  `json:"c"`        // categories to search within
 	Query      string    `json:"q"`        // search string (torrent name)
 	Page       int       `json:"page"`     // which page number from search results is desired
@@ -73,19 +75,9 @@ type TorrentSearch struct {
 	errors   []string  // errors for when request fails
 }
 
-type torrentParams struct {
-	ID int // identifier of torrent being requested
-}
-
 // TODO: torrent head (what is that)
 
-type uploadTorrentParameters struct {
-}
-
 type UploadTorrentResponse struct {
-}
-
-type updateTorrentParameters struct {
 }
 
 type UpdateTorrentResponse struct {
@@ -93,11 +85,6 @@ type UpdateTorrentResponse struct {
 
 // User object describing an individual user
 type User struct {
-}
-
-type loginParams struct {
-	Username string `json:"username"` // username to login with
-	Password string `json:"password"` // password to login with
 }
 
 type LoginResponse struct {
