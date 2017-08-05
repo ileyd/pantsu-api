@@ -6,9 +6,6 @@ import (
 	"time"
 )
 
-const pantsuClientTimeout = time.Second * 30
-const pantsuUserAgent = "pantsuAPI"
-
 func consumeGet(url string, params map[string]string, token string, response interface{}) error {
 	res, err := resty.R().
 		SetQueryParams(params).
