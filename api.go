@@ -3,9 +3,6 @@ package pantsuAPI
 import (
 	"encoding/json"
 	"gopkg.in/resty.v0"
-	"io"
-	"io/ioutil"
-	"net/http"
 	"time"
 )
 
@@ -30,8 +27,59 @@ func consumeGet(url string, params map[string]string, token string, response int
 	return nil
 }
 
-func torrentIndex() (index TorrentIndex) {
+func consumePost(url string, params map[string]string, token string, response interface{}, responseError interface{}) error {
+	res, err := resty.R().
+		SetBody(params).
+		SetResult(&response).
+		SetError(&responseError).
+		SetAuthToken(token).
+		Post(url)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(res.Body(), &response)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// TorrentIndex fetches and returns the Pantsu torrend index
+func TorrentIndex() (index TorrentIndex, err error) {
 	const url = ""
-	logErrorFatal(consumeGet(url, nil, "", &index))
-	return index
+	err = consumeGet(url, nil, "", &index)
+	return index, err
+}
+
+// func searchTorrents
+
+// func torrentInfo
+
+// func torrentHead // what is this
+
+// func uploadTorrent
+
+// func updateTorrent
+
+// UserLogin logs a user into pantsu and returns the user object for the user
+func UserLogin(username, password string) (res LoginResponse, err error) {
+	const url = ""
+	var params map[string]string
+	params["username"] = username
+	params["password"] = password
+
+	err = consumePost(url, params, "", res, nil)
+	return res, err
+}
+
+// UserProfile fetches the user profile for the specified user
+func UserProfile(id int) (res User, err error) {
+	const url = ""
+	var params map[string]string
+	params["id"] = string(id)
+
+	err = consumePost(url, params, "", res, nil)
+	return res, err
 }
